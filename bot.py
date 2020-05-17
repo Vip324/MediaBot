@@ -6,7 +6,7 @@ from src import parser
 from telebot import types
 
 
-bot = telebot.TeleBot('1224068014:AAGCOs8lO6eFb2VZBQwP49buOR3PfRfUAP8')
+bot = telebot.TeleBot('')
 
 
 @bot.message_handler(commands=["start"])
