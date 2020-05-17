@@ -18,27 +18,6 @@ def handle_start(message):
 def handle_help(message):
     bot.send_message(message.chat.id, config.HELP_MSG)
 
-
-# @bot.message_handler(regexp=r"\/i\d+")
-# def handle_imdb_id(message):
-#     keyboard = types.InlineKeyboardMarkup()
-#     callback_button = types.InlineKeyboardButton(
-#         text="Узнать больше", callback_data="show_more")
-#     watch_button = types.InlineKeyboardButton(
-#         text="Смотреть онлайн", callback_data="watch")
-#     keyboard.add(callback_button)
-#     keyboard.add(watch_button)
-#
-#     parser.parse_id(int(message.json['text'][2:]))
-#     response, photo = parser.output, parser.photo
-#
-#     if photo is not None:
-#         bot.send_message(message.chat.id,
-#                          "[​​​​​​​​​​​]({}) {}".format(photo, response),
-#                          parse_mode='markdown', reply_markup=keyboard)
-#     else:
-#         bot.send_message(message.chat.id, response, reply_markup=keyboard)
-
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
     if call.message:
