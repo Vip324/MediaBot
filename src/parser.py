@@ -51,7 +51,7 @@ def finder_ivi(content):
     """
     BASE_URL = "https://www.ivi.ru"
 
-    spam_rez = {'title': '', 'link': '', 'src': ''}
+    spam_rez = {'title': '', 'link': '', 'img': ''}
     results = []
     spam_search = content.replace(' ', '+')
 
@@ -71,30 +71,19 @@ def finder_ivi(content):
     return results
 
 
-def name():
-    return None
+def parser_text(text):
+    """
+    Функция возвращает первые значения поиска по тексту в ivi и youtube
+    :param text: текст для поиска
+    :return: словарь словарей(название, полная ссылка, ссылка на изображение)
+    """
+    response = {'parser_ivi': '', 'parser_youtube': ''}
+    response['parser_ivi'] = finder_ivi(text)[0]
+    response['parser_youtube'] = finder_youtube(text)[0]
 
-
-def photo():
-    return None
-
-
-def output():
-    return None
-
-
-def full_output():
-    return None
-
-
-def parser_text(param):
-    return None
+    return response
 
 
 if __name__ == '__main__':
-
     # тестовые запросы:
-    # print(finder_youtube('abba the winner takes it all'))
-    # print(finder_youtube('fhjj sdfkjkj'))
-    print(finder_ivi('pink floyd'))
-    # print(finder_ivi('fhjj sdfkjkj'))
+    print(parser_text('pink floyd the wall'))

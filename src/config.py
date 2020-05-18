@@ -11,12 +11,14 @@ ERR_MSG = "По запросу \"{}\" ничего не найдено.\n" \
           "Если все еще не получилось, я не знаю о таком фильме/сериале.\n" \
           "На всякий случай проверьте правильность написания :)"
 
-LINK_IVI = "https://www.ivi.ru/search/?q="
+LINK_IVI = "https://www.ivi.ru"
+LINK_YOUTUBE = 'https://youtube.com'
+
 LINK_KINOPOISK = "https://www.kinopoisk.ru/film/"
 
 LINK_HDREZKA = "http://hdrezka.name/index.php?do=search&subaction=search&q="
 LINK_BASKINO = "http://baskino.me/index.php?do=search&mode=advanced&subaction=search&story="
-LINK_YOUTUBE = 'https://youtube.com/results?search_query='
+
 
 
 def link_kinopoisk(id):
