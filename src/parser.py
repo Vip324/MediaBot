@@ -78,12 +78,15 @@ def parser_text(text):
     :return: словарь словарей(название, полная ссылка, ссылка на изображение)
     """
     response = {'parser_ivi': '', 'parser_youtube': ''}
-    response['parser_ivi'] = finder_ivi(text)[0]
-    response['parser_youtube'] = finder_youtube(text)[0]
+    if finder_ivi(text) != []:
+        response['parser_ivi'] = finder_ivi(text)[0]
+    if finder_youtube(text) != []:
+        response['parser_youtube'] = finder_youtube(text)[0]
 
     return response
 
 
 if __name__ == '__main__':
     # тестовые запросы:
-    print(parser_text('pink floyd the wall'))
+
+    print(parser_text('we find the tree'))
