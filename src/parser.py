@@ -1,6 +1,5 @@
 import requests
 from bs4 import BeautifulSoup
-from src import config
 
 
 def finder_youtube(content):

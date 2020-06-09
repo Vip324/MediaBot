@@ -1,69 +1,110 @@
-import telebot
-import time
-import logger
-import json
+import asyncio
+import logging
 from src import config
 from src import parser
-from telebot import types
+from aiogram import Bot, Dispatcher, executor, types
+from aiogram.bot import api
+from sqlite import SQLighter
+from news_parser import LordFilm
 
-bot = telebot.TeleBot('1224068014:AAGCOs8lO6eFb2VZBQwP49buOR3PfRfUAP8')
+
+logging.basicConfig(level=logging.DEBUG)
+Logger = logging.getLogger(__name__)
+
+# инициализируем бота
+bot = Bot(token=config.token)
 bot.spam_response = {}  # Временная переменная хранит возвращаемые парсером данные
+dp = Dispatcher(
+    bot=bot,
+)
+
+# Подмена базвого URL Для запроса
+PATCHED_URL = "https://telegg.ru/orig/dot{token}/{method}"
+setattr(api, 'API_URL', PATCHED_URL)
+
+# инициализируем соединение с БД
+db = SQLighter('db.db')
+
+# инициализируем парсер
+np = LordFilm('lastkey.txt')
+
+# проверяем наличие новых фильмов и делаем рассылки
+async def scheduled(wait_for):
+    while True:
+        await asyncio.sleep(wait_for)
+
+        # проверяем наличие новых фильмов
+        new_film = np.new_film()
+
+        if (new_film):
+            # если фильмы есть, переворачиваем список и итерируем
+            new_film.reverse()
+            for ng in new_film:
+                # парсим инфу о новом фильме
+                nfo = np.film_info(ng)
+
+                # получаем список подписчиков бота
+                subscriptions = db.get_subscriptions()
+
+                # отправляем всем новость
+                with open(np.download_image(nfo['image']), 'rb') as photo:
+                    for s in subscriptions:
+                        await bot.send_photo(
+                            s[1],
+                            photo,
+                            caption=nfo['title'] + "\n" + "Оценка: " + nfo['score'] + "\n" + nfo[
+                                'excerpt'] + "\n\n" + nfo['link'],
+                            disable_notification=True
+                        )
+
+                    # обновляем ключ
+                np.update_lastkey(nfo['id'])
+
+# Команда активации подписки
+@dp.message_handler(commands=['subscribe'])
+async def subscribe(message: types.Message):
+    if (not db.subscriber_exists(message.from_user.id)):
+        # если юзера нет в базе, добавляем его
+        db.add_subscriber(message.from_user.id)
+    else:
+        # если он уже есть, то просто обновляем ему статус подписки
+        db.update_subscription(message.from_user.id, True)
+
+    await message.answer(
+        "Вы успешно подписались на рассылку!\nЖдите, скоро выйдут новые обзоры и вы узнаете о них первыми =)")
 
 
-@bot.message_handler(commands=["start"])
-def handle_start(message):
-    bot.send_message(message.chat.id, config.START_MSG)
+# Команда отписки
+@dp.message_handler(commands=['unsubscribe'])
+async def unsubscribe(message: types.Message):
+    if (not db.subscriber_exists(message.from_user.id)):
+        # если юзера нет в базе, добавляем его с неактивной подпиской (запоминаем)
+        db.add_subscriber(message.from_user.id, False)
+        await message.answer("Вы итак не подписаны.")
+    else:
+        # если он уже есть, то просто обновляем ему статус подписки
+        db.update_subscription(message.from_user.id, False)
+        await message.answer("Вы успешно отписаны от рассылки.")
+
+@dp.message_handler(commands=["start"])
+async def handle_start(message: types.Message):
+    dp.send_message(message.chat.id, config.START_MSG)
 
 
-@bot.message_handler(commands=["help"])
-def handle_help(message):
-    bot.send_message(message.chat.id, config.HELP_MSG)
+@dp.message_handler(commands=["help"])
+async def handle_help(message: types.Message):
+    dp.send_message(message.chat.id, config.HELP_MSG)
 
 
-@bot.callback_query_handler(func=lambda call: True)
-def callback(call):
-    def show_parser(parser, film_source):
-        pass
-        # response, photo = parser[film_source]['title'], parser[film_source]['img']
-        # if photo is not None:
-        #     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-        #                           text="[​​​​​​​​​​​]({}) {}".format(photo, response), parse_mode='markdown',
-        #                           reply_markup=keyboard)
-        # else:
-        #     bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-        #                           text=response, reply_markup=keyboard)
-
-    if call.message:
-        # if call.data == "show_more":
-        #     callback_button = types.InlineKeyboardButton(
-        #         text="Коротко", callback_data="show_less")
-        #     watch_button = types.InlineKeyboardButton(
-        #         text="Смотреть онлайн", callback_data="watch")
-        #     keyboard = types.InlineKeyboardMarkup()
-        #     keyboard.add(callback_button)
-        #     keyboard.add(watch_button)
-        #
-        #     # Выводим два варианта поиска
-        #     if spam_response != {}:
-        #         #
-        #         if spam_response['parser_ivi'] != '':
-        #             show_parser(spam_response, 'parser_ivi')
-        #         if spam_response['parser_youtube'] != '':
-        #             show_parser(spam_response, 'parser_youtube')
-        #     response, photo = spam_response['parser_ivi']['title'], spam_response['parser_ivi']['img']
-        #     if photo is not None:
-        #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-        #                               text="[​​​​​​​​​​​]({}) {}".format(photo, response), parse_mode='markdown',
-        #                               reply_markup=keyboard)
-        #     else:
-        #         bot.edit_message_text(chat_id=call.message.chat.id, message_id=call.message.message_id,
-        #                               text=response, reply_markup=keyboard)
-
-        if call.data == "watch":
+@dp.callback_query_handler(lambda callback_query: True)
+async def handler(callback_query: types.CallbackQuery):
+    if callback_query.message:
+        if callback_query.data == "watch":
             keyboard = types.InlineKeyboardMarkup()
             if bot.spam_response['parser_ivi'] != '' and bot.spam_response['parser_youtube'] != '':
                 ivi_button = types.InlineKeyboardButton(
-                    text="IVI", url=bot.spam_response['parser_ivi']['link'])
+                    text="IVI",
+                    url=bot.spam_response['parser_ivi']['link'])
                 youtube_button = types.InlineKeyboardButton(
                     text="Youtube",
                     url=bot.spam_response['parser_youtube']['link'])
@@ -75,14 +116,15 @@ def callback(call):
                 keyboard.add(youtube_button)
             elif bot.spam_response['parser_ivi'] != '' and bot.spam_response['parser_youtube'] == '':
                 ivi_button = types.InlineKeyboardButton(
-                    text="IVI", url=bot.spam_response['parser_ivi']['link'])
+                    text="IVI",
+                    url=bot.spam_response['parser_ivi']['link'],)
                 keyboard.add(ivi_button)
-            bot.send_message(chat_id=call.message.chat.id, text=config.WATCH_MSG, reply_markup=keyboard)
+            dp.send_message(chat_id=callback_query.message.chat.id, text=config.WATCH_MSG, reply_markup=keyboard)
 
 
 # общение с ботом
-@bot.message_handler(content_types=["text"])
-def handle_text(message):
+@dp.message_handler(content_types=["text"])
+async def handle_text(message: types.Message):
     bot.spam_response = {}
     response = '   \n \n'
 
@@ -102,14 +144,23 @@ def handle_text(message):
     keyboard.add(watch_button)
 
     # выводим ответ для пользователя с кнопками выбора
-    bot.send_message(message.chat.id, response, reply_markup=keyboard)
+    dp.send_message(message.chat.id, response, reply_markup=keyboard)
+
+
+
+# Заперт боту отвечать на сообщения с "/"
+@dp.message_handler(content_types=types.ContentType.TEXT)
+async def do_echo(message: types.Message):
+    text = message.text
+    if text and not text.startswith('/'):
+        await message.reply(text=text)
+
+
+
+
 
 
 if __name__ == '__main__':
-    bot.infinity_polling()
-    # while True:
-    #     try:
-    #         bot.polling(none_stop=True, )
-    #     except Exception as one:
-    #         logger.error(one)
-    #         time.sleep(15)
+     dp.loop.create_task(scheduled(10))  # пока что оставим 10 секунд (в качестве теста)
+     executor.start_polling(dp, skip_updates=True)
+
