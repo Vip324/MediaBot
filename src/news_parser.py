@@ -85,12 +85,10 @@ class LordFilm:
 
         # поправил возврат результата : ссылки
         # return items[0]['href']
-        return self.parse_href(items[0])#['href'])
+        return self.parse_href(items[0])
 
     # пока не могу понять зачем это, но чтобы не ломать логику оставил
     def parse_href(self, href):
-        # result = re.match(r'\/show\/(\d+)', href)
-        # return result.group(1)
         return href
 
     def update_lastkey(self, new_key):
@@ -110,5 +108,5 @@ if __name__ == '__main__':
     a = LordFilm('lastkey.txt')
     print(a.new_film())
     print(a.film_info('https://max.lordfilm.cx/44760-parni-v-majami.html'))
-    # a.update_lastkey('https://max.lordfilm.cx/44760-parni-v-majami.html')
+    a.update_lastkey('https://max.lordfilm.cx/44760-parni-v-majami.html')
     # a.download_image('https://max.lordfilm.cx/44760-parni-v-majami.html')

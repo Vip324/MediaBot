@@ -1,8 +1,26 @@
-import string
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+URL_IVI = os.getenv("URL_IVI")
+URL_YOUTUBE = os.getenv("URL_YOUTUBE")
 
 
-token = '1224068014:AAGCOs8lO6eFb2VZBQwP49buOR3PfRfUAP8'
+admins = [
 
+]
+
+ip = os.getenv("ip")
+
+aiogram_redis = {
+    'host': ip,
+}
+
+redis = {
+    'adress': (ip, 6379),
+    'encoding': 'utf8'
+}
 
 START_MSG = "Привет, я твой помощник, который поможет тебе найти фильм или сериал :) \n" \
             "Заблудился, введи /help"
@@ -15,13 +33,6 @@ ERR_MSG = "По запросу \"{}\" ничего не найдено.\n" \
           "Если все еще не получилось, я не знаю о таком фильме/сериале.\n" \
           "На всякий случай проверьте правильность написания :)"
 
-LINK_IVI = "https://www.ivi.ru"
-LINK_YOUTUBE = 'https://youtube.com'
-
-
-
 def err_msg(name):
     return ERR_MSG.format(name)
 
-
-PUNCTUATION = set(string.punctuation) - set('-')
