@@ -1,11 +1,11 @@
 from aiogram import types
-from aiogram.dispatcher.filters.builtin import CommandHelp
 from data import config
 from loader import dp
 from utils.misc import rate_limit
 
 
 @rate_limit(5, 'help')
-@dp.message_handler(CommandHelp())
-async def bot_help(message: types.Message):
-    await message.answer(message.chat.id, config.HELP_MSG)
+@dp.message_handler(commands=['help'])
+async def help(message: types.Message):
+    await message.answer(config.HELP_MSG)
+

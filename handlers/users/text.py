@@ -1,10 +1,9 @@
 from data import config
 from src import parser
-from aiogram import Bot, Dispatcher, executor, types
-from aiogram.bot import api
-from loader import dp
+from aiogram import types
+from loader import dp, bot
 
-bot = Bot(token=config.BOT_TOKEN)
+
 bot.spam_response = {}  # Временная переменная хранит возвращаемые парсером данные
 
 

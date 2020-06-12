@@ -1,6 +1,7 @@
 from aiogram import types
 from loader import dp
 from sqlite import SQLighter
+from data import config
 
 # инициализируем соединение с БД
 db = SQLighter('db.db')
@@ -16,5 +17,4 @@ async def subscribe(message: types.Message):
         # если он уже есть, то просто обновляем ему статус подписки
         db.update_subscription(message.from_user.id, True)
 
-    await message.answer(
-        "Вы успешно подписались на рассылку!\nЖдите, скоро выйдут новые обзоры и вы узнаете о них первыми =)")
+    await message.answer(config.subscribe_MSG)

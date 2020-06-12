@@ -1,3 +1,6 @@
-aiogram==
-aiohttp==
-aioredis==
+python=3.8.2
+aiogram~=2.9
+python-dotenv~=0.13.0
+Pillow~=7.1.2
+requests~=2.23.0
+beautifulsoup4~=4.9.1

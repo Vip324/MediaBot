@@ -1,6 +1,7 @@
 from aiogram import types
 from loader import dp
 from sqlite import SQLighter
+from data import config
 
 # инициализируем соединение с БД
 db = SQLighter('db.db')
@@ -16,4 +17,4 @@ async def unsubscribe(message: types.Message):
     else:
         # если он уже есть, то просто обновляем ему статус подписки
         db.update_subscription(message.from_user.id, False)
-        await message.answer("Вы успешно отписаны от рассылки.")
+        await message.answer(config.unsubscribe_MSG)
