@@ -2,10 +2,10 @@ from data import config
 from src import parser
 from aiogram import types
 from loader import dp, bot
-
+import ffmpeg_streaming
 
 bot.spam_response = {}  # Временная переменная хранит возвращаемые парсером данные
-
+video = ffmpeg_streaming.input('response')
 
 # общение с ботом
 @dp.message_handler(content_types=["text"])
@@ -29,4 +29,4 @@ async def handle_text(message: types.Message):
     keyboard.add(watch_button)
 
     # выводим ответ для пользователя с кнопками выбора
-    await message.answer(message.chat.id, response, reply_markup=keyboard)
+    await message.answer(message.chat.id, video, reply_markup=keyboard)
