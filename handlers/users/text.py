@@ -5,7 +5,7 @@ from loader import dp, bot
 import ffmpeg_streaming
 
 bot.spam_response = {}  # Временная переменная хранит возвращаемые парсером данные
-video = ffmpeg_streaming.input('response')
+
 
 # общение с ботом
 @dp.message_handler(content_types=["text"])
@@ -27,6 +27,6 @@ async def handle_text(message: types.Message):
     keyboard = types.InlineKeyboardMarkup()
     watch_button = types.InlineKeyboardButton(text='Просмотр', callback_data='watch')
     keyboard.add(watch_button)
-
+    video = ffmpeg_streaming.input(response)  # загоняем ссылку в обработчик и выводим видео
     # выводим ответ для пользователя с кнопками выбора
     await message.answer(message.chat.id, video, reply_markup=keyboard)
