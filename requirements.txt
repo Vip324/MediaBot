@@ -4,3 +4,4 @@ python-dotenv~=0.13.0
 Pillow~=7.1.2
 requests~=2.23.0
 beautifulsoup4~=4.9.1
+python-ffmpeg-video-streaming>=0.1
