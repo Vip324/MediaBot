@@ -37,7 +37,7 @@ subscribe_MSG = "Поздравляю, Вы подписались!\n" \
                 "Ждите, скоро выйдут новые обзоры и вы узнаете о них первыми =)"
 unsubscribe_MSG = "Очень жалко, что покинули нас."
 
-img_subscribe = Image.open('D:\FM_Bot\TelegramBot\TelegramBot\img\subscribe.gif')
+# img_subscribe = Image.open('D:\FM_Bot\TelegramBot\TelegramBot\img\subscribe.gif')
 
 def err_msg(name):
     return ERR_MSG.format(name)
