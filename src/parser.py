@@ -78,7 +78,7 @@ def parser_text(text):
     """
     response = {'parser_film': ''}
     # if finder_ivi(text) != []:
-    #     response['parser_ivi'] = finder_ivi(text)[0]
+    #      response['parser_ivi'] = finder_ivi(text)[0]
     if finder_film(text) != []:
         response['parser_film'] = finder_film(text)[0]
 

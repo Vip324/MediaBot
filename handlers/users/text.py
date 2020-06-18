@@ -15,7 +15,7 @@ async def handle_text(message: types.Message):
     response = '   \n \n'
 
     # парсим text
-    bot.spam_response = parser.parser_text(message.from_user.id.json['text'])
+    bot.spam_response = parser.parser_text(message['text'])
 
     # готовим ответ по итогам поиска
     if bot.spam_response['parser_film'] != '':
@@ -24,7 +24,7 @@ async def handle_text(message: types.Message):
         #     response = response + 'I found on IVI: \n' + bot.spam_response['parser_ivi']['title'] + '\n \n'
         # if bot.spam_response['parser_film'] == '' and bot.spam_response['parser_ivi'] == '':
         if bot.spam_response['parser_film'] == '':
-            response = config.ERR_MSG.format(message.from_user.id.json['text'])
+            response = config.ERR_MSG.format(message.from_user.id['text'])
 
     keyboard = types.InlineKeyboardMarkup()
     watch_button = types.InlineKeyboardButton(text='Просмотр', callback_data='watch')

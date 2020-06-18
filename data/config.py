@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-from PIL import Image
+# from PIL import Image
 
 load_dotenv()
 BOT_TOKEN = os.getenv("BOT_TOKEN")
