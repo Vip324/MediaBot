@@ -4,9 +4,9 @@ from bs4 import BeautifulSoup as BS
 from urllib.parse import urlparse
 
 
-class LordFilm:
-    host = 'https://max.lordfilm.cx'
-    url = 'https://max.lordfilm.cx/novinki-2020/'
+class film:
+    host = 'https://x-film.top'
+    url = 'https://x-film.top/filmy-2020-goda/'
     lastkey = ""
     lastkey_file = ""
 
@@ -26,40 +26,24 @@ class LordFilm:
         html = BS(r.content, 'html.parser')
 
         new = []
-        # поправил правило поиска
-        # items = html.select('.tiles > .items > .item > a')
         items = html.select('.owl-carousel > .th-item > a')
 
         for i in items:
             key = self.parse_href(i['href'])
-
-            # if (self.lastkey < key):
             if (self.lastkey != key):
                 new.append(i['href'])
 
         return new
 
     def film_info(self, uri):
-        # link = self.host + uri
         link = uri
         r = requests.get(link)
         html = BS(r.content, 'html.parser')
-
-        # parse poster image url
-        """Нужно подправить"""
-        # poster = re.match(r'background-image:\s*url\((.+?)\)', html.select('.image-film-logo > .th-img')[0]['style'])
-
-        # remove some stuff
-        # remels = html.select('.article.article-show > *')
-        # for remel in remels:
-        #     remel.extract()
-
-        # form data
         info = {
-            # "id": self.parse_href(uri),
-            "title": html.select('.fleft-desc > h1')[0].text,
+
+            "title": html.select('.ftitle > h1')[0].text,
             "link": link,
-            "image": 'https:'+ html.select('.fleft-img-in > .fposter')[0].find('img')['src'],
+            "image": 'https:'+ html.select('.fposter')[0].find('img')['src'],
             "excerpt": html.select('.fdesc')[0].text[0:300] + '...'
         }
 
@@ -80,10 +64,9 @@ class LordFilm:
 
         # поправил правило поиска
         items = html.select('.owl-carousel > .th-item > a')
-        # items = html.select('.tiles > .items > .item > a')
 
-        # поправил возврат результата : ссылки
-        # return items[0]['href']
+
+
         return self.parse_href(items[0])
 
     # пока не могу понять зачем это, но чтобы не ломать логику оставил
@@ -104,8 +87,8 @@ class LordFilm:
 
 if __name__ == '__main__':
     # тестовые запросы:
-    a = LordFilm('lastkey.txt')
+    a = film('lastkey.txt')
     print(a.new_film())
-    print(a.film_info('https://max.lordfilm.cx/44760-parni-v-majami.html'))
-    a.update_lastkey('https://max.lordfilm.cx/44760-parni-v-majami.html')
-    # a.download_image('https://max.lordfilm.cx/44760-parni-v-majami.html')
+    print(a.film_info('https://x-film.top/6556-plenennaya-nyanya-2020.html'))
+    a.update_lastkey('https://x-film.top/6556-plenennaya-nyanya-2020.html')
+
