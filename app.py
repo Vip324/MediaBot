@@ -1,7 +1,7 @@
 from loader import bot, storage, dp
 from aiogram.bot import api
 from sqlite import SQLighter
-from src.news_parser import LordFilm
+from src.news_parser import film
 import asyncio
 import logging
 from aiogram import types
@@ -36,7 +36,7 @@ async def on_shutdown(dp):
 db = SQLighter('db.db')
 
 # инициализируем парсер
-np = LordFilm('lastkey.txt')
+np = film('lastkey.txt')
 
 
 # проверяем наличие новых фильмов и делаем рассылки
@@ -69,7 +69,7 @@ async def scheduled(wait_for):
                         )
 
                     # обновляем ключ
-                # np.update_lastkey(nfo[' '])
+                np.update_lastkey(nfo[' '])
 
 
 @dp.callback_query_handler(lambda callback_query: True)
@@ -77,24 +77,28 @@ async def handler(callback_query: types.CallbackQuery):
     if callback_query.message:
         if callback_query.data == "watch":
             keyboard = types.InlineKeyboardMarkup()
-            if bot.spam_response['parser_ivi'] != '' and bot.spam_response['parser_youtube'] != '':
-                ivi_button = types.InlineKeyboardButton(
-                    text="IVI",
-                    url=bot.spam_response['parser_ivi']['link'])
-                youtube_button = types.InlineKeyboardButton(
-                    text="Youtube",
-                    url=bot.spam_response['parser_youtube']['link'])
-                keyboard.row(youtube_button, ivi_button)
-            elif bot.spam_response['parser_ivi'] == '' and bot.spam_response['parser_youtube'] != '':
-                youtube_button = types.InlineKeyboardButton(
-                    text="Youtube",
-                    url=bot.spam_response['parser_youtube']['link'])
-                keyboard.add(youtube_button)
-            elif bot.spam_response['parser_ivi'] != '' and bot.spam_response['parser_youtube'] == '':
-                ivi_button = types.InlineKeyboardButton(
-                    text="IVI",
-                    url=bot.spam_response['parser_ivi']['link'],)
-                keyboard.add(ivi_button)
+
+            # if bot.spam_response['parser_ivi'] != '' and bot.spam_response['parser_youtube'] != '':
+            if bot.spam_response['parser_film'] != '':
+                # ivi_button = types.InlineKeyboardButton(
+                #     text="IVI",
+                #     url=bot.spam_response['parser_ivi']['link'])
+                film_button = types.InlineKeyboardButton(
+                    text="x-film",
+                    url=bot.spam_response['parser_film']['link'])
+                # keyboard.row(youtube_button, ivi_button)
+                keyboard.row(film_button)
+            # elif bot.spam_response['parser_ivi'] == '' and bot.spam_response['parser_youtube'] != '':
+            elif bot.spam_response['parser_film'] != '':
+                film_button = types.InlineKeyboardButton(
+                    text="x-film",
+                    url=bot.spam_response['parser_film']['link'])
+                keyboard.add(film_button)
+            # elif bot.spam_response['parser_ivi'] != '' and bot.spam_response['parser_youtube'] == '':
+            #     ivi_button = types.InlineKeyboardButton(
+            #         text="IVI",
+            #         url=bot.spam_response['parser_ivi']['link'],)
+            #     keyboard.add(ivi_button)
             await callback_query.message.answer(callback_query.message, text=config.WATCH_MSG, reply_markup=keyboard)
 
 
