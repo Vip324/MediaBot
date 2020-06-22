@@ -26,7 +26,8 @@ class film:
         html = BS(r.content, 'html.parser')
 
         new = []
-        items = html.select('.owl-carousel > .th-item > a')
+        # поправил поиск
+        items = html.select('.short > .short-text > a')
 
         for i in items:
             key = self.parse_href(i['href'])
@@ -61,11 +62,8 @@ class film:
     def get_lastkey(self):
         r = requests.get(self.url)
         html = BS(r.content, 'html.parser')
-
         # поправил правило поиска
-        items = html.select('.owl-carousel > .th-item > a')
-
-
+        items = html.select('.short > .short-text > a')
 
         return self.parse_href(items[0])
 
@@ -90,5 +88,4 @@ if __name__ == '__main__':
     a = film('lastkey.txt')
     print(a.new_film())
     print(a.film_info('https://x-film.top/6556-plenennaya-nyanya-2020.html'))
-    a.update_lastkey('https://x-film.top/6556-plenennaya-nyanya-2020.html')
-
+    # a.update_lastkey('https://x-film.top/6556-plenennaya-nyanya-2020.html')
