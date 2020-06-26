@@ -1,6 +1,8 @@
 import requests
 from bs4 import BeautifulSoup
 
+from src.news_parser import film
+
 
 def finder_film(content):
     """
@@ -72,15 +74,17 @@ def finder_film(content):
 
 def parser_text(text):
     """
-    Функция возвращает первые значения поиска по тексту в ivi и youtube
+    Функция возвращает первые значения поиска по тексту в x-film
     :param text: текст для поиска
     :return: словарь словарей(название, полная ссылка, ссылка на изображение)
     """
     response = {'parser_film': ''}
     # if finder_ivi(text) != []:
     #      response['parser_ivi'] = finder_ivi(text)[0]
-    if finder_film(text) != []:
-        response['parser_film'] = finder_film(text)[0]
+    a = film('lastkey.txt')
+    spam_search = a.search_film(text)
+    if spam_search != '':
+        response['parser_film'] = a.film_info(spam_search)
 
     return response
 
