@@ -19,9 +19,14 @@ async def handle_text(message: types.Message):
 
     # готовим ответ по итогам поиска
     if bot.spam_response['parser_film'] != '':
-        response = response + SEARCH_MSG + '\n'\
-                   + bot.spam_response['parser_film']['title'] + '\n'\
-                   + WATCH_MSG + '\n'
+        # response = response + SEARCH_MSG + '\n' \
+        #            + bot.spam_response['parser_film']['title'] + '\n' \
+        #            + WATCH_MSG + '\n'
+        response = response + WATCH_MSG + '\n'
+        await message.answer(bot.spam_response['parser_film']['title'])
+        await message.answer_photo(bot.spam_response['parser_film']['image'])
+        await message.answer(bot.spam_response['parser_film']['excerpt'])
+
         # if bot.spam_response['parser_ivi'] != '':
         #     response = response + 'I found on IVI: \n' + bot.spam_response['parser_ivi']['title'] + '\n \n'
         # if bot.spam_response['parser_film'] == '' and bot.spam_response['parser_ivi'] == '':
