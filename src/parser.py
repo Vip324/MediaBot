@@ -41,35 +41,37 @@ def finder_film(content):
     return results
 
 
-# def finder_ivi(content):
-#     """
-#     Функция поиска по контексту информации в IVI
-#
-#     Формат поиска: https://www.ivi.ru/search/?q=pink+floyd
-#
-#     :param content: строковое значение
-#     :return: кортеж словарей(название, полная ссылка, ссылка на изображение)
-#     """
-#     BASE_URL = "https://www.ivi.ru"
-#
-#     spam_rez = {'title': '', 'link': '', 'img': ''}
-#     results = []
-#     spam_search = content.replace(' ', '+')
-#
-#     url = f"{BASE_URL}/search/?q={spam_search}"
-#     response = BeautifulSoup(requests.get(url).text, "html.parser")
-#     if response.find('div', class_='gallery'):
-#         rez = response.find(
-#             'div', class_='gallery').find_all(
-#             'a', class_='nbl-slimPosterBlock')
-#
-#         for data in rez:
-#             spam_rez['title'] = f"{data.find('div', class_='nbl-slimPosterBlock__title').text}"
-#             spam_rez['link'] = f"https://www.ivi.ru{data.get('href')}"
-#             spam_rez['img'] = data.find('img').get('src')
-#             results.append(spam_rez)
-#
-#     return results
+def finder_ivi(content):
+    """
+    Функция поиска по контексту информации в IVI
+
+    Формат поиска: https://www.ivi.ru/search/?q=pink+floyd
+
+    :param content: строковое значение
+    :return: кортеж словарей(название, полная ссылка, ссылка на изображение)
+    """
+    BASE_URL = "https://www.ivi.ru"
+
+    spam_rez = {'title': '', 'link': '', 'image': ''}
+    results = []
+    spam_search = content.replace(' ', '+')
+
+    url = f"{BASE_URL}/search/?q={spam_search}"
+    response = BeautifulSoup(requests.get(url).text, "html.parser")
+
+    if response.find('div', class_='gallery'):
+        rez = response.find(
+            'div', class_='gallery').find_all(
+            'a', class_='nbl-slimPosterBlock')
+        # print(rez)
+
+        for data in rez:
+            spam_rez['title'] = f"{data.find('div', class_='nbl-slimPosterBlock__title').text}"
+            spam_rez['link'] = f"https://www.ivi.ru{data.get('href')}"
+            spam_rez['image'] = data.find('img').get('src').split('jpg')[0]+'jpg'
+            results.append(spam_rez)
+
+    return results
 
 
 def parser_text(text):
@@ -78,9 +80,9 @@ def parser_text(text):
     :param text: текст для поиска
     :return: словарь словарей(название, полная ссылка, ссылка на изображение)
     """
-    response = {'parser_film': ''}
-    # if finder_ivi(text) != []:
-    #      response['parser_ivi'] = finder_ivi(text)[0]
+    response = {'parser_film': '','parser_ivi': ''}
+    if finder_ivi(text) != []:
+         response['parser_ivi'] = finder_ivi(text)[0]
     a = film('lastkey.txt')
     spam_search = a.search_film(text)
     if spam_search != '':
@@ -92,4 +94,4 @@ def parser_text(text):
 if __name__ == '__main__':
     # тестовые запросы:
 
-    print(parser_text('we find the tree'))
+    print(parser_text('pink floyd'))

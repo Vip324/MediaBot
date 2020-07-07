@@ -45,7 +45,7 @@ class film:
             "title": html.select('.ftitle > h1')[0].text,
             "link": link,
             "image": 'https://x-film.top' + html.select('.fposter')[0].find('img')['src'],
-            "excerpt": html.select('.fdesc')[0].text[0:400] + '...'
+            # "excerpt": html.select('.fdesc')[0].text[0:400] + '...'
         }
 
         return info
