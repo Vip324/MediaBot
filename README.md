@@ -1,5 +1,5 @@
 # @MediaFinder_Bot
-Welcome to the MediaFinder_Bot page!
+Welcome to the MediaFinder_Bot page for telegram!
 
 This bot will help you in your daily routine with searching for media content. 
 It contains everything you are looking for:
