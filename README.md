@@ -2,7 +2,7 @@
 
 <center>
 
-<p align="center"><img ="img/Bot1.jpg" width="300" height="300"></p>
+<p align="center"><img src="img/Bot1.jpg" width="300" height="300"></p>
 
 # @MediaFinder_Bot
 Welcome to the MediaFinder_Bot page for telegram!
