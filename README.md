@@ -1,4 +1,4 @@
-# MediaBot
+# @MediaFinder_Bot
 Welcome to the MediaFinder_Bot page!
 
 This bot will help you in your daily routine with searching for media content. 
