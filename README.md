@@ -10,14 +10,8 @@ Tired of watching, our bot will also select music for you.
                                                     What features does the bot have?
 
 
-1) Some text.
+1) Search for movies by name
 
-2) Some text.
-
-3) Some text.
-
-4) Some text.
-
-5) Some text.
+2) Subscribe to the latest movies newsletter
 
 @MediaFinderBot
