@@ -63,7 +63,6 @@ def finder_ivi(content):
         rez = response.find(
             'div', class_='gallery').find_all(
             'a', class_='nbl-slimPosterBlock')
-        # print(rez)
 
         for data in rez:
             spam_rez['title'] = f"{data.find('div', class_='nbl-slimPosterBlock__title').text}"
