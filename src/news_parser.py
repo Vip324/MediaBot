@@ -45,7 +45,6 @@ class film:
             "title": html.select('.ftitle > h1')[0].text,
             "link": link,
             "image": 'https://x-film.top' + html.select('.fposter')[0].find('img')['src'],
-            # "excerpt": html.select('.fdesc')[0].text[0:400] + '...'
         }
 
         return info
@@ -117,7 +116,5 @@ if __name__ == '__main__':
     a = film('lastkey.txt')
     print(a.new_film())
     print(a.film_info('https://x-film.top/6556-plenennaya-nyanya-2020.html'))
-    # a.update_lastkey('https://x-film.top/6556-plenennaya-nyanya-2020.html')
     print(a.search_film('black and blue'))
     print(a.film_info(a.search_film('black and blue')))
-    # print(a.search_film('jhgjhghjg'))
