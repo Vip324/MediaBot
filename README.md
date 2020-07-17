@@ -16,10 +16,10 @@
 
 1. [Main features](#General-information)
     1. [General information](#General-information)
-    1. [user authorization](#User authorization)
-    1. [user capabilities](#User capabilities)
-2. [technology Stack and modules](#Technology Stack and modules)
-3. [bot Registration](#Registration-bot)
+    1. [User authorization](#User authorization)
+    1. [User capabilities](#User capabilities)
+2. [Technology Stack and modules](#Technology Stack and modules)
+3. [Bot Registration](#Registration-bot)
 4. [Start and debug](#Start-and-debug)
 
 ------------
