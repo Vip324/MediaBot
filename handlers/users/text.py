@@ -35,10 +35,3 @@ async def handle_text(message: types.Message):
 
     if bot.spam_response['parser_film'] == '':
         response = config.ERR_MSG.format(message['text'])
-
-    # keyboard = types.InlineKeyboardMarkup()
-    # watch_button = types.InlineKeyboardButton(text='Просмотр', callback_data='watch')
-    # keyboard.add(watch_button)
-    # video = ffmpeg_streaming.input(['link'])  # загоняем ссылку в обработчик и выводим видео
-    # выводим ответ для пользователя с кнопками выбора
-    # await message.answer(response, reply_markup=keyboard)
