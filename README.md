@@ -1,5 +1,3 @@
-
-
 <center>
 
 <p align="center"><img src="img/Bot1.jpg" width="300" height="300"></p>
@@ -12,27 +10,22 @@
 [![GitHub stars](https://img.shields.io/github/stars/Vip324/MediaBot)](https://github.com/Vip324/MediaBot/stargazers)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/Vip324/MediaBot)
 ![GitHub watchers](https://img.shields.io/github/watchers/Vip324/MediaBot?style=social)
-
-
-
-Welcome to the MediaFinder_Bot page for telegram!
-
-                                                   /center>
+</center>
 
 ## Table of contents
 
-1. [Main features] (#General-information)
-1.1 [General information](#General-information)
-1.2 [user authorization] (#user authorization)
-1.3 [user capabilities] (#user capabilities)
-2. [technology Stack and modules] (#technology Stack and modules)
+1. [Main features](#General-information)
+    1. [General information](#General-information)
+    1. [user authorization](#User authorization)
+    1. [user capabilities](#User capabilities)
+2. [technology Stack and modules](#Technology Stack and modules)
 3. [bot Registration](#Registration-bot)
 4. [Start and debug](#Start-and-debug)
 
 ------------
 ## Basic possibilities
 
-## general information
+## General information
 
 <div align="justify">
 
@@ -46,7 +39,7 @@ Welcome to the MediaFinder_Bot page for telegram!
 [🔼Table of contents](#Table of contents)
 
 
-## authorization of users
+## Authorization of users
 
 
 User authorization in the bot is implemented as follows: when adding a bot for the first time, the user must send it the /start command (this is standard and provided by Telegram). The next step, the user can optionally subscribe to the mailing list of released new products in the world of movies
@@ -56,7 +49,7 @@ User authorization in the bot is implemented as follows: when adding a bot for t
 
 
 
-## user capabilities
+## User capabilities
 
 
 Search for media content and subscribe to the newsletter
@@ -112,14 +105,14 @@ All features can be viewed using the `/help ' command.
 
 ** Note: token is the only identification key to the bot. Don't post it anywhere, otherwise other people will be able to control Your bot. The bot with this token was deleted at the time of posting the article.**
 
-[ 🔼 Table of contents](#Table of contents)
+[🔼Table of contents](#Table of contents)
 
 ### Installing and configuring the bot:
 
 1. Install all dependencies with `MediaBot/requirements.txt`.
 2. Enable the proxy (since the api and the telegram bot itself are under sanctions in the Russian Federation), [RiseupVPN] was used when working on the project(https://riseup.net/vpn "RiseupVPN").
 3. Launch the file app.py.
-4. Open the teerglam (messenger) and search for@MediaFinderBot and click start. 
+4. Open the telergam (messenger) and search for @MediaFinderBot and click start. 
 </div>
 
-@MediaFinderBot
+# @MediaFinderBot
